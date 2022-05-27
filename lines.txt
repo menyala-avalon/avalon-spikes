@@ -23,3 +23,4 @@
 "https://s3.amazonaws.com/appforest_uf/f1653622873908x529006656270641000/Recoleta-Bold.otf"
 "https://s3.amazonaws.com/appforest_uf/f1653622877896x217441658568862340/Recoleta-Regular.otf"
 "https://s3.amazonaws.com/appforest_uf/f1653622935120x809562250823180500/Recoleta-Light.otf"
+https://s3.amazonaws.com/appforest_uf/f1653632139564x670917840261766800/rebranddis-regular.otf
