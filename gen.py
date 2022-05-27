@@ -7,8 +7,8 @@ lines = f.readlines()
 for line in lines:
     line = line.strip().strip("\"").strip()
     url = line
-    filename = line.split("/")[-1]
-    fontname = filename.split(".")[0]
+    filename = line.split("/")[-1].replace("-", " ")
+    fontname = filename.split(".")[0].replace("-", " ")
     print(filename, fontname)
     outputfile_name = "{}.css".format(fontname)
     template = """
