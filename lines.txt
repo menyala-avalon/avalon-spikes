@@ -24,4 +24,14 @@
 "https://s3.amazonaws.com/appforest_uf/f1653622877896x217441658568862340/Recoleta-Regular.otf"
 "https://s3.amazonaws.com/appforest_uf/f1653622935120x809562250823180500/Recoleta-Light.otf"
 https://s3.amazonaws.com/appforest_uf/f1653632139564x670917840261766800/rebranddis-regular.otf
-https://github.com/aljorhythm/assembly-fonts/blob/main/Helvetica Neu Bold.ttf?raw=true
+https://s3.amazonaws.com/appforest_uf/f1653635971325x117102903171433230/Helvetica%20Neu%20Bold.ttf
+https://s3.amazonaws.com/appforest_uf/f1653635967680x308298154671682300/HelveticaNeue%20BlackCond.ttf
+https://s3.amazonaws.com/appforest_uf/f1653635963083x426552729496606900/HelveticaNeue%20Light.ttf
+https://s3.amazonaws.com/appforest_uf/f1653635958767x526787559659179600/HelveticaNeue%20Medium.ttf
+https://s3.amazonaws.com/appforest_uf/f1653635954095x636808175720890960/HelveticaNeue%20Thin.ttf
+https://s3.amazonaws.com/appforest_uf/f1653635942193x225229911385462340/HelveticaNeue.ttf
+https://s3.amazonaws.com/appforest_uf/f1653635938315x907564725270639600/HelveticaNeueBd.ttf
+https://s3.amazonaws.com/appforest_uf/f1653635933811x910593155935356800/HelveticaNeueHv.ttf
+https://s3.amazonaws.com/appforest_uf/f1653635927699x541533184107392960/HelveticaNeueIt.ttf
+https://s3.amazonaws.com/appforest_uf/f1653635922305x954590867376068300/HelveticaNeueLt.ttf
+https://s3.amazonaws.com/appforest_uf/f1653635915839x232157227272959970/HelveticaNeueMed.ttf
