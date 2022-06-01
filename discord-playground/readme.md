@@ -6,10 +6,10 @@ build
 `npm run build`
 
 start
-`npm run start`
+`PORT=8080 npm run start`
 
 dev
-`make dev`
+`PORT=8080 make dev`
 
 tunnel
 `ngrok http 8080`
