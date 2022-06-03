@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import {
@@ -23,7 +25,6 @@ app.get('/', (req: Request, res: Response) => {
 
 app.post('/interactions', async function (req, res) {
     console.log(req.body)
-    res.send("ok")
 })
 
 app.listen(port, () => {
