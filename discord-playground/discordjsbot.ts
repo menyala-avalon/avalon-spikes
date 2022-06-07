@@ -23,7 +23,7 @@ bot.on('messageCreate', async (msg) => {
 })
 
 bot.on('presenceUpdate', (oldPresence, newPresence) => {
-    const { status, clientStatus, userId, member  } = newPresence;
+    const { status, clientStatus, userId } = newPresence;
     const msg = `user${userId} new status: ${status}, clientStatus: ${JSON.stringify(clientStatus, null, 2)}}`;
     console.log(msg);
     // channel.send(msg);
@@ -37,5 +37,19 @@ bot.on('ready', () => {
     console.log("bot is ready")
 })
 
-console.log("connecting bot")
-bot.login(process.env.DISCORD_TOKEN)
+async function fetchGuildsInformation() {
+    const guildsResponse = await bot.guilds.fetch()
+    guildsResponse.each(async (guild) => {
+        const guildResponse = await guild.fetch()
+        console.log(`guild: ${guildResponse}`)
+    })
+}
+
+async function main() {
+    console.log("connecting bot")
+    await bot.login(process.env.DISCORD_TOKEN)
+
+    setInterval(fetchGuildsInformation, 10000)
+}
+
+main()
