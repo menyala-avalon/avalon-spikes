@@ -25,9 +25,13 @@ bot.on('messageCreate', async (msg) => {
 bot.on('presenceUpdate', async (oldPresence, newPresence) => {
     const { status, clientStatus, userId } = newPresence;
     const channels = await newPresence.guild.channels.fetch()
-    const channel = channels[0]
+    const channel = Array.from(channels.values()).find(channel => {
+        return channel.type == "GUILD_TEXT"
+    })
+    console.log(channel)
     const msg = `user${userId} new status: ${status}, clientStatus: ${JSON.stringify(clientStatus, null, 2)}}`;
-    channel.send(msg);
+    console.log(msg)
+    // channel.send(msg);
 });
 
 bot.on('interactionCreate', async (interaction) => {
@@ -64,7 +68,7 @@ async function main() {
     console.log("connecting bot")
     await bot.login(process.env.DISCORD_TOKEN)
 
-    setInterval(() => {fetchGuildsInformation(bot)}, 10000)
+    setInterval(() => { fetchGuildsInformation(bot) }, 10000)
 }
 
 main()
