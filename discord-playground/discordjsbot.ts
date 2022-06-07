@@ -9,14 +9,17 @@ dotenv.config();
 const bot = new discord.Client({ intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_PRESENCES"] });
 
 bot.on('messageCreate', async (msg) => {
-    return; // free first 500 calls in month
     const content = msg.content
     console.log(`bot received ${content}`)
 
-    if (!msg.author.bot) {
-        const { score } = await analyseSentiment(content)
-        msg.channel.send(`I heard you "${content} ${score} ${score > 0 ? "POSITIVE" : "NEGATIVE"}`)
+    async function analyseSentiment(content) {
+        if (!msg.author.bot) {
+            const { score } = await analyseSentiment(content)
+            msg.channel.send(`I heard you "${content} ${score} ${score > 0 ? "POSITIVE" : "NEGATIVE"}`)
+        }
     }
+
+    // analyseSentiment(content)
 })
 
 bot.on('presenceUpdate', (oldPresence, newPresence) => {
