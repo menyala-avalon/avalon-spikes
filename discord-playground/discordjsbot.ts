@@ -64,8 +64,7 @@ async function main() {
     console.log("connecting bot")
     await bot.login(process.env.DISCORD_TOKEN)
 
-    await fetchGuildsInformation(bot)
-    // setInterval(fetchGuildsInformation, 10000)
+    setInterval(() => {fetchGuildsInformation(bot)}, 10000)
 }
 
 main()
