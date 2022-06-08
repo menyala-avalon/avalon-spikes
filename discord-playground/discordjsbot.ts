@@ -36,7 +36,7 @@ bot.on('guildMemberAdd', member => {
 
 bot.on('presenceUpdate', async (oldPresence, newPresence) => {
     const { status, clientStatus, userId } = newPresence;
-  
+
     const msg = `user${userId} new status: ${status}, clientStatus: ${JSON.stringify(clientStatus, null, 2)}}`;
     sendMessageToFirstChannel(newPresence.guild, msg)
 });
