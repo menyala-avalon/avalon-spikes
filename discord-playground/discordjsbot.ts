@@ -6,7 +6,7 @@ import dotenv from "dotenv"
 import { analyseSentiment } from "./sentiment"
 dotenv.config();
 
-const bot = new discord.Client({ intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_PRESENCES"] });
+const bot = new discord.Client({ intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_MEMBERS", "GUILD_PRESENCES"] });
 
 bot.on('messageCreate', async (msg) => {
     const content = msg.content
@@ -22,16 +22,23 @@ bot.on('messageCreate', async (msg) => {
     }
 })
 
-bot.on('presenceUpdate', async (oldPresence, newPresence) => {
-    const { status, clientStatus, userId } = newPresence;
-    const channels = await newPresence.guild.channels.fetch()
+async function sendMessageToFirstChannel(guild, msg) {
+    const channels = await guild.channels.fetch()
     const channel = Array.from(channels.values()).find(channel => {
         return channel.type == "GUILD_TEXT"
     })
-    console.log(channel)
+    channel.send(msg);
+}
+
+bot.on('guildMemberAdd', member => {
+    sendMessageToFirstChannel(member.guild, JSON.stringify(member, null, 2))
+})
+
+bot.on('presenceUpdate', async (oldPresence, newPresence) => {
+    const { status, clientStatus, userId } = newPresence;
+  
     const msg = `user${userId} new status: ${status}, clientStatus: ${JSON.stringify(clientStatus, null, 2)}}`;
-    console.log(msg)
-    // channel.send(msg);
+    sendMessageToFirstChannel(newPresence.guild, msg)
 });
 
 bot.on('interactionCreate', async (interaction) => {
@@ -68,6 +75,7 @@ async function main() {
     console.log("connecting bot")
     await bot.login(process.env.DISCORD_TOKEN)
 
+    await fetchGuildsInformation(bot)
     setInterval(() => { fetchGuildsInformation(bot) }, 10000)
 }
 
