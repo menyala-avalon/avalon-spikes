@@ -10,7 +10,6 @@ const bot = new discord.Client({ intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_ME
 
 bot.on('messageCreate', async (msg) => {
     const content = msg.content
-    console.log(`bot received ${content}`)
 
     async function analyseSentiment(content) {
         const { score } = await analyseSentiment(content)
@@ -18,6 +17,7 @@ bot.on('messageCreate', async (msg) => {
     }
 
     if (!msg.author.bot) {
+        console.log(`bot received ${content}`)
         // await analyseSentiment(content)
     }
 })
@@ -49,6 +49,8 @@ bot.on('ready', () => {
     console.log("bot is ready")
 })
 
+let testBotChannels = {}
+
 async function fetchGuildsInformation(bot) {
     const guilds = await bot.guilds.fetch()
 
@@ -57,6 +59,10 @@ async function fetchGuildsInformation(bot) {
         const channelsManager = fetchedGuild.channels
         const channels = await channelsManager.fetch()
         const channelsOutput = (await Promise.all(channels.map(async (channel) => {
+            if (channel.name == "test-bot") {
+                testBotChannels[guild.id] = channel
+            }
+
             return `channel: ${channel.name}
 ${channel.members.map(member => {
                 return member.displayName
@@ -67,7 +73,7 @@ ${channel.members.map(member => {
         const output = `guild: ${fetchedGuild.name}
 ${channelsOutput}
 `
-        console.log(output)
+        testBotChannels[guild.id]?.send(output)
     })
 }
 
@@ -76,7 +82,7 @@ async function main() {
     await bot.login(process.env.DISCORD_TOKEN)
 
     await fetchGuildsInformation(bot)
-    setInterval(() => { fetchGuildsInformation(bot) }, 10000)
+    setInterval(() => { fetchGuildsInformation(bot) }, 20000)
 }
 
 main()
