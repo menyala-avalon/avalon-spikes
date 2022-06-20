@@ -63,14 +63,14 @@ async function fetchGuildsInformation(bot) {
                 testBotChannels[guild.id] = channel
             }
 
-            return `channel: ${channel.name}
+            return `channel: ${channel.name} ${channel.id}
 ${channel.members.map(member => {
                 return member.displayName
             }).join("\n")}
 `
         }))).join("\n")
 
-        const output = `guild: ${fetchedGuild.name}
+        const output = `guild: ${fetchedGuild.name} ${fetchedGuild.id}
 ${channelsOutput}
 `
         testBotChannels[guild.id]?.send(output)
