@@ -2,11 +2,13 @@
 // discord.js playground
 
 import discord from "discord.js"
+import fs from "fs"
 import dotenv from "dotenv"
 dotenv.config();
 import util from "util"
 const exec = util.promisify(require('child_process').exec);
-
+import emojiStrip from "emoji-strip"
+const program = "docker"
 const DISCORD_TOKEN = process.env.DISCORD_TOKEN
 
 const bot = new discord.Client({ intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_MEMBERS", "GUILD_PRESENCES"] });
@@ -44,19 +46,37 @@ ${channelsOutput}
             : value // return everything else unchanged
         , 2))
 
-    const commands = allInfo.flatMap(g => {
+    const commands = allInfo.map(g => {
         const { channels, guild } = g
 
-        const guildCmd = `podman run --rm -v /Users/joel.lim/Downloads/chatbot-data:/app/out tyrrrz/discordchatexporter:stable export -t tyrrrz/discordchatexporter:stable export -t ${DISCORD_TOKEN} -c ${guild.id}`
+        const outputFormats = {
+            // HtmlDark: "html", 
+            // PlainText: "txt", 
+            // Json: "json", 
+            Csv: "csv"
+        }
 
-        return channels.map(channel => {
-            return `podman run --rm -v /Users/joel.lim/Downloads/chatbot-data:/app/out tyrrrz/discordchatexporter:stable export -t tyrrrz/discordchatexporter:stable export -t ${DISCORD_TOKEN} -c ${channel.id}`
-        }).concat(guildCmd)
+        const guildCmds = Object.entries(outputFormats).map(([_, format]) => { return `${program} run --rm -v /Users/joel.lim/Downloads/chatbot-data:/app/out tyrrrz/discordchatexporter:stable export -t ${DISCORD_TOKEN} -c ${guild.id} -o "/app/out/guild-${emojiStrip(guild.name)}-${guild.id}.${format}"` })
+        return guildCmds
+        return channels.flatMap(channel => {
+            const channelNameSplit = channel.name.split("│")
+            const channelName = channelNameSplit[channelNameSplit.length - 1]
+            const fileIdentifier = emojiStrip(`guild-${guild.name.trim()}-channel-${channelName.trim()}-${channel.id}`)
+
+            return Object.entries(outputFormats).map(([_, format]) => {
+                return `${program} run --rm -v /Users/joel.lim/Downloads/chatbot-data:/app/out tyrrrz/discordchatexporter:stable export -t ${DISCORD_TOKEN} -c ${channel.id} -o "/app/out/${fileIdentifier}.${format}"`
+            })
+        }).concat(guildCmds)
     })
 
-    await Promise.all(commands.map(async(cmd) => {
-        const { stdout, stderr } = await exec('ls');
-        console.log(stdout)
+    console.log(commands)
+
+    fs.writeFileSync("temp/importInfo.sh", commands.join("\n"));
+    return
+    await Promise.all(commands.map(async (cmd) => {
+        console.log(cmd)
+        // const { stdout, stderr } = await exec(cmd);
+        // console.log(stdout)
     }))
     console.log("finished")
 }
